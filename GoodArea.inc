@@ -222,6 +222,8 @@ stock GetPlayerGroupGoodAreaID(playerid, &areaid, &areaindex = 0)
 
 stock DeleteGroupGoodAreas(ga_groupid)
 {
+	if(!IsGoodAreaUsed(ga_groupid)) return 0;
+	if(strcmp(ga_AreaFunction[ga_groupid], "delete", true) == 0 || !strlen(ga_AreaFunction[ga_groupid])) return 0;
 	format(ga_AreaFunction[ga_groupid], sizeof ga_AreaFunction[], "delete");
 	return 1;
 }
