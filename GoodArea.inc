@@ -198,7 +198,7 @@ stock CreateGroupGoodAreas(const function[])
 	return index;
 }
 
-stock AddGroupGoodAreas(ga_groupid, GOOD_AREA_TAG area, areaindex)
+stock AddGroupGoodAreas(ga_groupid, GOOD_AREA_TAG area, areaindex = 0)
 {
 	new ga_data[3];
 	if(!IsValidDynamicArea(area)) return 0;
@@ -206,6 +206,23 @@ stock AddGroupGoodAreas(ga_groupid, GOOD_AREA_TAG area, areaindex)
 	ga_data[1] = ga_groupid;
 	ga_data[2] = areaindex;
 	Streamer_SetArrayData(STREAMER_TYPE_AREA, area, E_STREAMER_EXTRA_ID, ga_data);
+	return 1;
+}
+
+stock GetPlayerGroupGoodAreaID(playerid, &areaid, &areaindex = 0)
+{
+	new ga_groupid, ga_index;
+	if(GetPlayerGroupGoodArea(playerid, ga_groupid, ga_index)) {
+		areaid = ga_groupid;
+		areaindex = ga_index;
+		return 1;
+	}
+	return 0;
+}
+
+stock DeleteGroupGoodAreas(ga_groupid)
+{
+	format(ga_AreaFunction[ga_groupid], sizeof ga_AreaFunction[], "delete");
 	return 1;
 }
 
@@ -229,6 +246,20 @@ stock SetAreaFunction(GOOD_AREA_TAG area, const function[])
 	ga_data[1] = index;
 	Streamer_SetArrayData(STREAMER_TYPE_AREA, area, E_STREAMER_EXTRA_ID, ga_data);
 	return 1;
+}
+
+stock RemoveAreaFunction(GOOD_AREA_TAG area)
+{
+	new index = GetGoodAreaIndex(areaid);
+	if(index != -1) {
+		ga_AreaFunction[index][0] = '\0';
+		new ga_data[2];
+		ga_data[0] = 0;
+		ga_data[1] = 0;
+		Streamer_SetArrayData(STREAMER_TYPE_AREA, area, E_STREAMER_EXTRA_ID, ga_data);
+		return 1;
+	}
+	return 0;
 }
 
 static stock GetFreeAreaFunction()
@@ -289,6 +320,7 @@ static stock GetPlayerGroupGoodArea(playerid, &ga_groupid, &areaindex)
 		if(IsValidDynamicArea(player_areas[i])) {
 			new temp_ga_groupid, temp_areaindex;
 			if(GetGroupGoodAreaIndex(player_areas[i], temp_ga_groupid, temp_areaindex)) {
+				if(strcmp(ga_AreaFunction[ga_groupid], "delete", true) == 0 || !strlen(ga_AreaFunction[ga_groupid])) return 0;
 				ga_groupid = temp_ga_groupid;
 				areaindex = temp_areaindex;
 				return 1;
