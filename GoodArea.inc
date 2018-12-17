@@ -12,6 +12,12 @@
 
 #define _GoodArea_included
 
+#tryinclude <streamer>
+
+#if !defined _streamer_included
+	#error Please include <streamer>  first.
+#endif
+
 #define GA_MAX_FUNCTION_NAME 32
 
 #if !defined MAX_GOOD_AREAS
