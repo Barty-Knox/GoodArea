@@ -30,6 +30,12 @@
 	forward gare_%0(%1); \
 	public gare_%0(%1)
 
+#define goodarea%0\32;%1(%2) \
+    AreaResponse:%1(%2)
+    
+#define goodgarea%0\32;%1(%2) \
+    GAResponse:%1(%2)
+
 #define GoodArea: #
 
 #define GA_RESPONSE_ENTER 0
