@@ -1,8 +1,8 @@
 /*
 
 	Author: knox
-	Version: 1.1
-	Data: 21.11.2018
+	Version: 1.2.1
+	Data: 21.12.2018
 
 */
 
@@ -11,6 +11,16 @@
 #endif
 
 #define _GoodArea_included
+
+// - by @desulaid
+
+#tryinclude <streamer>
+
+#if !defined _streamer_included
+	#error Please include <streamer>  first.
+#endif
+
+// --------------
 
 #define GA_MAX_FUNCTION_NAME 32
 
@@ -29,6 +39,16 @@
 #define GAResponse:%0(%1) \
 	forward gare_%0(%1); \
 	public gare_%0(%1)
+
+// - by @desulaid
+
+#define goodarea%0\32;%1(%2) \
+	AreaResponse:%1(%2)
+
+#define goodgarea%0\32;%1(%2) \
+	GAResponse:%1(%2)
+
+// --------------
 
 #define GoodArea: #
 
